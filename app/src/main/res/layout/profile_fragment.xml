@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="@string/profileNumberOfFriend"
+            android:id="@+id/friendsText"
+            android:textColor="#010101"
+            android:layout_below="@+id/friendNumber"
+            android:layout_alignLeft="@+id/friendNumber"
+            android:layout_alignStart="@+id/friendNumber"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:id="@+id/friendNumber"
+            android:textColor="#000000"
+            android:autoText="false"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profilePicture"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileName"
+            android:textSize="18dp"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:layout_below="@+id/profilePicture"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hoby"
+            android:layout_below="@+id/profileName"
+            android:layout_alignLeft="@+id/profileName"
+            android:layout_alignStart="@+id/profileName"
+            android:textColor="#000000"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/work"
+            android:layout_below="@+id/hoby"
+            android:layout_alignLeft="@+id/hoby"
+            android:layout_alignStart="@+id/hoby"
+            android:textColor="#000000"
+            android:textSize="10dp" />
+
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/profilePager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/profileTab"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/profileTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d7d7d9"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        app:tabTextColor="@color/button_material_dark"
+        app:tabSelectedTextColor="@color/cardview_dark_background"
+        app:tabIndicatorColor="@color/button_material_dark"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>

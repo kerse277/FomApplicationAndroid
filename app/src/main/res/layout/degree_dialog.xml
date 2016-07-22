@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="250dp"
+    android:layout_height="300dp">
+
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="30dp"
+        android:id="@+id/info"
+        android:background="#ffffff"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:drawableTop="@drawable/ic_info_outline_black_48dp"
+        android:layout_toLeftOf="@+id/addFriend"
+        android:layout_toStartOf="@+id/addFriend"
+        android:layout_alignBottom="@+id/addFriend"
+        android:layout_below="@+id/dialogImg" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:id="@+id/dialogImg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:background="@drawable/dialog_title"
+
+        android:textColor="#EEEEEE"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="New Text"
+        android:id="@+id/dialogText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="30dp"
+        android:drawableTop="@drawable/ic_person_add_black_48dp"
+        android:id="@+id/addFriend"
+        android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/dialogImg" />
+
+</RelativeLayout>
