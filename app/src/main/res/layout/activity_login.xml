@@ -43,6 +43,12 @@
                 android:inputType="textPassword"
                 android:hint="@string/hint_password" />
         </android.support.design.widget.TextInputLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -51,21 +57,20 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_sign_in"
-                android:background="@color/colorPrimary"
-                android:layout_marginTop="40dp"
-                android:textColor="@android:color/white"/>
+                android:background="@drawable/button_corner"
+                android:textColor="@color/colorPrimary"/>
+
+            <ProgressBar
+                android:visibility="invisible"
+                android:id="@+id/progress_bar_login"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:indeterminate="false"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
-
-        <ProgressBar
-            android:visibility="invisible"
-            android:id="@+id/progress_bar_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_alignTop="@+id/btn_signin"
-            android:layout_centerHorizontal="true" />
 
 
     </LinearLayout>

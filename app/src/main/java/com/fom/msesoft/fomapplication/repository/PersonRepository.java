@@ -17,6 +17,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 @Rest(rootUrl = "http://192.168.2.120:8081/person",converters = { MappingJackson2HttpMessageConverter.class })
 public interface PersonRepository {
 
+    @Get("/regGCM?uniqueId={uniqueId}&regId={regId}")
+    void registerGCM(@Path String uniqueId,@Path String regId);
+
     @Get("/findByFirstName?name=A1")
     Person findByFirstName();
 

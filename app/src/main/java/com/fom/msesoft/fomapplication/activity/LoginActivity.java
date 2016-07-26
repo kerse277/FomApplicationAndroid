@@ -1,7 +1,10 @@
 package com.fom.msesoft.fomapplication.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import org.androidannotations.annotations.UiThread;
+
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
@@ -26,6 +30,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -73,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
     }
     @UiThread
     void preExecute(){
+        CharSequence cs="";
+        sign.setText(cs);
 
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -84,9 +91,35 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("person",person);
             startActivity(intent);
             this.finish();
+            registerGCM();
             progressBar.setVisibility(View.GONE);
+
         }
     }
+    @Background
+    void registerGCM () {
+        GoogleCloudMessaging gcm = null;//Google Cloud referansı
+        String PROJECT_ID = "369106327986";
+        String regid = null;
+
+
+        try {
+            if (gcm == null) {
+                gcm = GoogleCloudMessaging.getInstance(this);//GCM objesi oluşturduk ve gcm referansına bağladık
+            }
+            regid = gcm.register(PROJECT_ID);//gcm objesine PROJECT_ID mizi göndererek regid değerimizi aldık.Bu değerimizi hem sunucularımıza göndereceğiz Hemde Androidde saklıyacağız
+
+        }
+
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        personRepository.registerGCM(person.getUniqueId(),regid);
+
+
+    }
+
 
 
     @AfterTextChange(R.id.input_email)

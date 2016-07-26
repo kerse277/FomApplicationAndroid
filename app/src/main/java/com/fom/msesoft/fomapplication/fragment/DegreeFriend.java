@@ -65,8 +65,6 @@ public class DegreeFriend extends Fragment {
     void execute(){
         setHasOptionsMenu(true);
         listAll();
-
-
     }
 
 
@@ -95,7 +93,6 @@ public class DegreeFriend extends Fragment {
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);
         }
-        freshItemsData=itemsData;
         postExecute(itemsData);
 
     }
@@ -162,33 +159,6 @@ public class DegreeFriend extends Fragment {
 
 
     }
-
-  /*  @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
-
-        MenuItemCompat.setOnActionExpandListener(item,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        // Do something when collapsed
-                        mAdapter.setFilter(freshItemsData);
-                        return true; // Return true to collapse action view
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        // Do something when expanded
-                        return true; // Return true to expand action view
-                    }
-                });
-    }*/
-
-
 
 
     private List<Person> filter(List<Person> models, String query) {

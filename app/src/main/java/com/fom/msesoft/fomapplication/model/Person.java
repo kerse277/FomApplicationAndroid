@@ -51,6 +51,9 @@ public class Person implements Serializable {
     @Getter
     private String photo;
 
+    @Setter
+    @Getter
+    private String deviceID;
 
 
 }

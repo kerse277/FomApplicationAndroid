@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     void afterViews(){
 
         person = (Person) getIntent().getSerializableExtra("person");
+
+
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.find2));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.profile));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.feed));

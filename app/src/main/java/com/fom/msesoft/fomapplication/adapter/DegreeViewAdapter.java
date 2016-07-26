@@ -87,7 +87,6 @@ public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
-            loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
         }
     }
 
