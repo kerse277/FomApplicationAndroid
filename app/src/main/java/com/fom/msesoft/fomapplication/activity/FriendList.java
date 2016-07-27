@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.adapter.FriendViewAdapter;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
 
@@ -50,12 +51,12 @@ public class FriendList extends AppCompatActivity {
     @Background
     void listAll(){
         preExecute();
-        List<Person> itemsData=new ArrayList<>();
+        List<CustomPerson> itemsData=new ArrayList<>();
 
 
         Intent intent = getIntent();
 
-        Person[] persons = personRepository.findByFirstDegreeFriend(((Person)intent.getSerializableExtra("Person")).getUniqueId());
+        CustomPerson[] persons = personRepository.findByFirstDegreeFriend(((Person)intent.getSerializableExtra("Person")).getUniqueId());
 
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);
@@ -72,7 +73,7 @@ public class FriendList extends AppCompatActivity {
     }
 
     @UiThread
-    void postExecute(final List<Person> itemsData){
+    void postExecute(final List<CustomPerson> itemsData){
 
         progressBar.setVisibility(View.GONE);
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.squareup.picasso.Picasso;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<Person> itemList;
+    private List<CustomPerson> itemList;
     private Context context;
 
     private Person person;
@@ -32,7 +33,7 @@ public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int lastVisibleItem, totalItemCount;
 
 
-    public DegreeViewAdapter(Context context, List<Person> itemList, RecyclerView recyclerView, Person person) {
+    public DegreeViewAdapter(Context context, List<CustomPerson> itemList, RecyclerView recyclerView, Person person) {
         this.itemList = itemList;
         this.context = context;
         this.person = person;

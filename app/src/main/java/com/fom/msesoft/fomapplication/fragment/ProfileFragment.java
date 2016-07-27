@@ -15,6 +15,7 @@ import com.fom.msesoft.fomapplication.activity.MainActivity;
 import com.fom.msesoft.fomapplication.adapter.CircleTransform;
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.adapter.ProfilePagerAdapter;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.model.Places;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
@@ -119,13 +120,13 @@ public class ProfileFragment extends Fragment {
     @Background
     void profileConnection () {
         person = ((MainActivity)getActivity()).getPerson();
-        List<Person> firstDegreeFriend = Arrays.asList(personRepository.findByFirstDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId()));
+        List<CustomPerson> firstDegreeFriend = Arrays.asList(personRepository.findByFirstDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId()));
         Places places = placesRepository.personWorkSearch(person.getUniqueId());
         profileNumber(firstDegreeFriend,person,places);
     }
 
     @UiThread
-    void profileNumber(List<Person> firstDegreeFriend, Person person,Places places) {
+    void profileNumber(List<CustomPerson> firstDegreeFriend, Person person, Places places) {
         friendNumber.setText(firstDegreeFriend.size() + "");
         Picasso.with(getActivity())
                 .load(person.getPhoto().toString())

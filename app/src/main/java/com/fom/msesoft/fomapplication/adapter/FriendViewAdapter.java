@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.squareup.picasso.Picasso;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class FriendViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<Person> itemList;
+    private List<CustomPerson> itemList;
     private Context context;
 
     private Person person;
@@ -33,7 +34,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int lastVisibleItem, totalItemCount;
 
 
-    public FriendViewAdapter(Context context, List<Person> itemList, RecyclerView recyclerView) {
+    public FriendViewAdapter(Context context, List<CustomPerson> itemList, RecyclerView recyclerView) {
         this.itemList = itemList;
         this.context = context;
         this.person = person;
@@ -86,7 +87,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void addFriend () {
-        Person addPerson;
+        CustomPerson addPerson;
         addPerson = itemList.get(position);
 
     }

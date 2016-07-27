@@ -4,36 +4,23 @@ package com.fom.msesoft.fomapplication.fragment;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.activity.MainActivity;
-import com.fom.msesoft.fomapplication.activity.MainActivity_;
-import com.fom.msesoft.fomapplication.adapter.CircleTransform;
 import com.fom.msesoft.fomapplication.adapter.DegreeViewAdapter;
 import com.fom.msesoft.fomapplication.adapter.OnLoadMoreListener;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
-import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
@@ -48,8 +35,8 @@ public class DegreeFriend extends Fragment {
 
     int limitSize=20,degree=2;
     private GridLayoutManager lLayout;
-    List<Person> itemsData = new ArrayList<>();
-    List<Person> freshItemsData = new ArrayList<>();
+    List<CustomPerson> itemsData = new ArrayList<>();
+    List<CustomPerson> freshItemsData = new ArrayList<>();
 
     @ViewById(R.id.progress_bar)
     ProgressBar progressBar;
@@ -69,10 +56,10 @@ public class DegreeFriend extends Fragment {
 
 
     @Background
-    void listRefresh(List<Person> itemsData,int degree,int limit){
+    void listRefresh(List<CustomPerson> itemsData, int degree, int limit){
         preRefreshExecute();
 
-        Person[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId(),String.valueOf(degree).toString(),String.valueOf(limit).toString());
+        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId(),String.valueOf(degree).toString(),String.valueOf(limit).toString());
         freshItemsData.clear();
         for(int i = 0 ;i<persons.length;i++){
 
@@ -88,7 +75,7 @@ public class DegreeFriend extends Fragment {
         preExecute();
 
 
-        Person[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId(),"2","20");
+        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId(),"2","20");
 
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);
@@ -122,7 +109,7 @@ public class DegreeFriend extends Fragment {
     }
 
     @UiThread
-    void postExecute(final List<Person> itemsData){
+    void postExecute(final List<CustomPerson> itemsData){
 
         lLayout = new GridLayoutManager(getActivity(),3);
 

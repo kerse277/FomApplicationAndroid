@@ -17,7 +17,7 @@ public class FriendRelationship {
 
     @Getter
     @Setter
-    private Person startNode;
+    private CustomPerson startNode;
 
     @Getter
     @Setter

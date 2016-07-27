@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.FriendRelationship;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.squareup.picasso.Picasso;
@@ -35,7 +36,7 @@ import lombok.Setter;
 
 public class DegreeViewHolders extends RecyclerView.ViewHolder {
     @Setter
-    private Person person;
+    private CustomPerson person;
 
     @Setter
     private Person mePerson;
