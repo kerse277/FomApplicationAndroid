@@ -7,7 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.activity.MainActivity;
@@ -16,6 +19,7 @@ import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
@@ -38,6 +42,15 @@ public class ProfileFragmentSettings extends Fragment{
     @ViewById(R.id.logout_button)
     Button logout;
 
+    @ViewById(R.id.nameTxt)
+    EditText nameTxt;
+
+    @ViewById(R.id.trueImage)
+    ImageView trueImage;
+
+    @ViewById(R.id.falseImage)
+    ImageView falseImage;
+
 
     @Click(R.id.logout_button)
     void logout(){
@@ -45,6 +58,8 @@ public class ProfileFragmentSettings extends Fragment{
         loginPrefsEditor.commit();
         getActivity().finish();
     }
+
+
 
     @RestService
     PersonRepository personRepository;
@@ -59,6 +74,14 @@ public class ProfileFragmentSettings extends Fragment{
 
     }
 
+
+  /*  @AfterTextChange
+    void nameTextChange () {
+        falseImage.setVisibility(View.GONE);
+        trueImage.setVisibility(View.GONE);
+
+    }
+*/
     @Background
     void profileConnection(String token) {
        CustomPerson customPerson = personRepository.findByToken(token);

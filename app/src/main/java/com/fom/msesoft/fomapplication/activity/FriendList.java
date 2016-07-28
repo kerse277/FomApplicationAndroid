@@ -30,6 +30,8 @@ import java.util.List;
 @Fullscreen
 public class FriendList extends AppCompatActivity {
 
+    public String token;
+
     @RestService
     PersonRepository personRepository;
 
@@ -55,7 +57,8 @@ public class FriendList extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        CustomPerson[] persons = personRepository.findByFirstDegreeFriend(((CustomPerson)intent.getSerializableExtra("customPerson")).getUniqueId());
+        token = intent.getStringExtra("token");
+        CustomPerson[] persons = personRepository.findByFirstDegreeFriend(token);
 
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);

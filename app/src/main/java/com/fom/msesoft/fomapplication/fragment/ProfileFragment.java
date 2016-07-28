@@ -34,10 +34,15 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 
 @EFragment(R.layout.profile_fragment)
 public class ProfileFragment extends Fragment {
 
+    @Getter
+    @Setter
     private  CustomPerson customPerson;
 
     String token;
@@ -123,7 +128,7 @@ public class ProfileFragment extends Fragment {
     @Background
     void profileConnection () {
 
-        customPerson = personRepository.findByToken(((MainActivity)getActivity()).getToken());
+        setCustomPerson(personRepository.findByToken(((MainActivity)getActivity()).getToken()));
         List<CustomPerson> firstDegreeFriend = Arrays.asList(personRepository.findByFirstDegreeFriend(token));
         Places places = placesRepository.personWorkSearch(customPerson.getUniqueId());
         profileNumber(firstDegreeFriend,customPerson,places);
@@ -146,14 +151,14 @@ public class ProfileFragment extends Fragment {
     void friendList () {
 
         Intent i = new Intent(getActivity(),FriendList_.class);
-        i.putExtra("customPerson", (Serializable) customPerson);
+        i.putExtra("token",token);
         startActivity(i);
 
     }
     @Click(R.id.friendsText)
     void friedList() {
         Intent i = new Intent(getActivity(),FriendList_.class);
-        i.putExtra("customPerson", (Serializable) customPerson);
+        i.putExtra("token",token);
         startActivity(i);
     }
     @Click(R.id.checkButton)

@@ -1,7 +1,10 @@
 package com.fom.msesoft.fomapplication.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+
+import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.UiThread;
 
 import android.content.SharedPreferences;
@@ -11,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -58,6 +62,9 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.input_email)
     EditText inputEmail;
 
+    @ViewById(R.id.input_login_password)
+    EditText inputLoginPassword;
+
     @AfterViews
     void afterViews(){
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
@@ -90,6 +97,27 @@ public class LoginActivity extends AppCompatActivity {
     @Click(R.id.btn_signin)
     void btn_signin(){
         sign(inputEmail.getText().toString(),password.getText().toString());
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    @FocusChange(R.id.input_email)
+    void changeEmail(View v)
+    {
+        if(!inputEmail.hasFocus())
+        {
+            hideKeyboard(v);
+        }
+    }
+    @FocusChange(R.id.input_login_password)
+    void changePassword(View v)
+    {
+        if(!inputLoginPassword.hasFocus())
+        {
+            hideKeyboard(v);
+        }
     }
 
     @Background
@@ -211,4 +239,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
 }
+

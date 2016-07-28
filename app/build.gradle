@@ -70,7 +70,7 @@ dependencies {
     //noinspection GradleCompatible
 
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:design:23.3.0'
 
     compile 'com.android.support:recyclerview-v7:23.1.1'
 
