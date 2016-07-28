@@ -55,5 +55,9 @@ public class Person implements Serializable {
     @Getter
     private String deviceID;
 
+    @Getter
+    @Setter
+    private String token;
+
 
 }

@@ -38,6 +38,7 @@ public class DegreeFriend extends Fragment {
     List<CustomPerson> itemsData = new ArrayList<>();
     List<CustomPerson> freshItemsData = new ArrayList<>();
 
+
     @ViewById(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -58,8 +59,7 @@ public class DegreeFriend extends Fragment {
     @Background
     void listRefresh(List<CustomPerson> itemsData, int degree, int limit){
         preRefreshExecute();
-
-        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId(),String.valueOf(degree).toString(),String.valueOf(limit).toString());
+        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getToken(),String.valueOf(degree).toString(),String.valueOf(limit).toString());
         freshItemsData.clear();
         for(int i = 0 ;i<persons.length;i++){
 
@@ -74,8 +74,9 @@ public class DegreeFriend extends Fragment {
     void listAll(){
         preExecute();
 
+        String token = ((MainActivity)getActivity()).getToken();
 
-        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId(),"2","20");
+        CustomPerson[] persons = personRepository.findDegreeFriend(token,"2","20");
 
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);
@@ -120,7 +121,7 @@ public class DegreeFriend extends Fragment {
         progressBar.setVisibility(View.GONE);
 
 
-        mAdapter = new DegreeViewAdapter(getActivity(),itemsData,recyclerView,((MainActivity)getActivity()).getPerson());
+        mAdapter = new DegreeViewAdapter(getActivity(),itemsData,recyclerView,((MainActivity)getActivity()).getToken());
 
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

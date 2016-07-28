@@ -1,5 +1,7 @@
 package com.fom.msesoft.fomapplication.model;
 
+import org.androidannotations.rest.spring.annotations.Get;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -7,7 +9,6 @@ import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
 public class CustomPerson {
-
 
     @Getter
     @Setter

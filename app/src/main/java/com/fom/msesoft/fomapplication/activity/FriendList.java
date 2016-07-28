@@ -55,8 +55,7 @@ public class FriendList extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-
-        CustomPerson[] persons = personRepository.findByFirstDegreeFriend(((Person)intent.getSerializableExtra("Person")).getUniqueId());
+        CustomPerson[] persons = personRepository.findByFirstDegreeFriend(((CustomPerson)intent.getSerializableExtra("customPerson")).getUniqueId());
 
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);

@@ -20,7 +20,7 @@ public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<CustomPerson> itemList;
     private Context context;
 
-    private Person person;
+    private String token;
     private int position;
 
     private final int VIEW_TYPE_ITEM = 0;
@@ -33,10 +33,10 @@ public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int lastVisibleItem, totalItemCount;
 
 
-    public DegreeViewAdapter(Context context, List<CustomPerson> itemList, RecyclerView recyclerView, Person person) {
+    public DegreeViewAdapter(Context context, List<CustomPerson> itemList, RecyclerView recyclerView, String token) {
         this.itemList = itemList;
         this.context = context;
-        this.person = person;
+        this.token = token;
         final GridLayoutManager gridLayoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -81,7 +81,7 @@ public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof DegreeViewHolders) {
             DegreeViewHolders userViewHolder = (DegreeViewHolders) holder;
             userViewHolder.setPerson(itemList.get(position));
-            userViewHolder.setMePerson(person);
+            userViewHolder.setToken(token);
             Picasso.with(context)
                     .load(itemList.get(position).getPhoto())
                     .into(userViewHolder.personPhoto);

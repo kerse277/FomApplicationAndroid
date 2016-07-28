@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.model.Person;
+import com.fom.msesoft.fomapplication.model.Token;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -38,6 +39,8 @@ import java.io.Serializable;
 @Fullscreen
 public class LoginActivity extends AppCompatActivity {
     public Person person;
+
+    public Token token;
 
     @RestService
     PersonRepository personRepository;
@@ -73,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     @Background
     public void sign(String email, String password) {
         preExecute();
-        person = personRepository.signIn(email,password);
-        chechSign(person);
+        token = personRepository.signIn(email,password);
+        chechSign(token);
     }
     @UiThread
     void preExecute(){
@@ -85,10 +88,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @UiThread
-    void chechSign (Person person) {
-        if(person!=null) {
+    void chechSign (Token token) {
+        if(!token.getToken().equals(null)) {
             Intent intent = new Intent(this, MainActivity_.class);
-            intent.putExtra("person",person);
+            intent.putExtra("token",token.getToken());
             startActivity(intent);
             this.finish();
             registerGCM();
@@ -115,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        personRepository.registerGCM(person.getUniqueId(),regid);
+        personRepository.registerGCM(token.getToken(),regid);
 
 
     }

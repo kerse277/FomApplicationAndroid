@@ -30,6 +30,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +38,9 @@ import java.util.List;
 @EFragment(R.layout.profile_fragment)
 public class ProfileFragment extends Fragment {
 
-    private  Person person;
+    private  CustomPerson customPerson;
+
+    String token;
 
     @RestService
     PersonRepository personRepository;
@@ -75,7 +78,7 @@ public class ProfileFragment extends Fragment {
 
     @AfterViews
     void profileView () {
-
+        token = ((MainActivity)getActivity()).getToken();
         profileConnection();
 
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_perm_media_white_24dp));
@@ -119,37 +122,38 @@ public class ProfileFragment extends Fragment {
 
     @Background
     void profileConnection () {
-        person = ((MainActivity)getActivity()).getPerson();
-        List<CustomPerson> firstDegreeFriend = Arrays.asList(personRepository.findByFirstDegreeFriend(((MainActivity)getActivity()).getPerson().getUniqueId()));
-        Places places = placesRepository.personWorkSearch(person.getUniqueId());
-        profileNumber(firstDegreeFriend,person,places);
+
+        customPerson = personRepository.findByToken(((MainActivity)getActivity()).getToken());
+        List<CustomPerson> firstDegreeFriend = Arrays.asList(personRepository.findByFirstDegreeFriend(token));
+        Places places = placesRepository.personWorkSearch(customPerson.getUniqueId());
+        profileNumber(firstDegreeFriend,customPerson,places);
     }
 
     @UiThread
-    void profileNumber(List<CustomPerson> firstDegreeFriend, Person person, Places places) {
+    void profileNumber(List<CustomPerson> firstDegreeFriend, CustomPerson customPerson, Places places) {
         friendNumber.setText(firstDegreeFriend.size() + "");
         Picasso.with(getActivity())
-                .load(person.getPhoto().toString())
+                .load(customPerson.getPhoto().toString())
                 .resize(200,200)
                 .transform(new CircleTransform())
                 .into(profilePicture);
-        profileName.setText(person.getFirstName()+" "+person.getLastName());
+        profileName.setText(customPerson.getFirstName()+" "+customPerson.getLastName());
         work.setText(places.getType()+", "+places.getName());
-        hoby.setText(person.getHoby());
+        hoby.setText(customPerson.getHoby());
 
     }
     @Click(R.id.friendNumber)
     void friendList () {
 
         Intent i = new Intent(getActivity(),FriendList_.class);
-        i.putExtra("Person",person);
+        i.putExtra("customPerson", (Serializable) customPerson);
         startActivity(i);
 
     }
     @Click(R.id.friendsText)
     void friedList() {
         Intent i = new Intent(getActivity(),FriendList_.class);
-        i.putExtra("Person",person);
+        i.putExtra("customPerson", (Serializable) customPerson);
         startActivity(i);
     }
     @Click(R.id.checkButton)

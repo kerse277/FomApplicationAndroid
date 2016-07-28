@@ -1,6 +1,6 @@
 package com.fom.msesoft.fomapplication.repository;
 
-import com.fom.msesoft.fomapplication.model.Person;
+
 import com.fom.msesoft.fomapplication.model.Places;
 
 import org.androidannotations.rest.spring.annotations.Get;

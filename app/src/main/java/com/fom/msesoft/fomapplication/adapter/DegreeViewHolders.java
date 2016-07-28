@@ -22,6 +22,7 @@ import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.FriendRelationship;
 import com.fom.msesoft.fomapplication.model.Person;
+import com.fom.msesoft.fomapplication.model.Token;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -31,6 +32,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+
 import lombok.Setter;
 
 
@@ -39,7 +42,10 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
     private CustomPerson person;
 
     @Setter
-    private Person mePerson;
+    private CustomPerson mePerson;
+
+    @Setter
+    private String token;
 
     RelativeLayout infoLayout;
 
@@ -114,10 +120,11 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         friendRelationship.setStartNode(person)
                                 .setEndNode(mePerson)
                                 .setFriendType("Facebook");
-                        new FriendAdd().execute();
+                        new GetCustomPerson().execute();
                         Toast.makeText(itemView.getContext(),"İstek gönderildi", Toast.LENGTH_LONG).show();
                     }
 
@@ -154,11 +161,28 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
         });
 
     }
+
+    private class GetCustomPerson extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HashMap<String, Object> urlVariables = new HashMap<String, Object>();
+            urlVariables.put("token", token);
+            mePerson=restTemplate.exchange("http://192.168.2.130:8081/person".concat("/findByToken?token={token}"), HttpMethod.GET, null, CustomPerson.class, urlVariables).getBody();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new FriendAdd().execute();
+        }
+    }
+
     private class FriendAdd extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {
             HttpEntity<FriendRelationship> requestEntity = new HttpEntity<FriendRelationship>(friendRelationship);
-            restTemplate.exchange("http://fomserver.cloudapp.net:8081/friendRelationShip".concat("/saveFriend"), HttpMethod.POST, requestEntity, FriendRelationship.class).getBody();
+            restTemplate.exchange("http://192.168.2.130:8081/friendRelationShip".concat("/saveFriend"), HttpMethod.POST, requestEntity, FriendRelationship.class).getBody();
             return null;
         }
     }

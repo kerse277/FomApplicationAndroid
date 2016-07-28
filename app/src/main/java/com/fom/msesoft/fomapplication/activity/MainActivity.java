@@ -6,12 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.adapter.DegreePager;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
+import com.fom.msesoft.fomapplication.repository.PersonRepository;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.rest.spring.annotations.RestService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,14 +29,18 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.tab_layout)
     TabLayout tabLayout;
 
+
     @Getter
     @Setter
-    Person person;
+    String token;
+
+    @RestService
+    PersonRepository personRepository;
 
     @AfterViews
     void afterViews(){
 
-        person = (Person) getIntent().getSerializableExtra("person");
+        token = getIntent().getStringExtra("token");
 
 
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.find2));
