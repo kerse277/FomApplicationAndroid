@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import org.androidannotations.annotations.UiThread;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,9 @@ import java.io.Serializable;
 @Fullscreen
 public class LoginActivity extends AppCompatActivity {
     public Person person;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
+    private Boolean saveLogin;
 
     public Token token;
 
@@ -53,6 +57,21 @@ public class LoginActivity extends AppCompatActivity {
 
     @ViewById(R.id.input_email)
     EditText inputEmail;
+
+    @AfterViews
+    void afterViews(){
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+
+            Intent intent = new Intent(this, MainActivity_.class);
+            intent.putExtra("token",loginPreferences.getString("token", ""));
+            startActivity(intent);
+
+        }
+    }
 
     @AfterTextChange(R.id.input_email)
     void onTextChancedInputEmail(){
@@ -95,6 +114,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             this.finish();
             registerGCM();
+
+            loginPrefsEditor.putBoolean("saveLogin", true);
+            loginPrefsEditor.putString("token", token.getToken());
+            loginPrefsEditor.commit();
+
             progressBar.setVisibility(View.GONE);
 
         }

@@ -16,14 +16,11 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 /**
  * Created by oguz on 30.06.2016.
  */
-@Rest(rootUrl = "http://192.168.2.130:8081/person",converters = { MappingJackson2HttpMessageConverter.class })
+@Rest(rootUrl = "http://192.168.2.120:8081/person",converters = { MappingJackson2HttpMessageConverter.class })
 public interface PersonRepository {
 
     @Get("/regGCM?token={token}&regId={regId}")
     void registerGCM(@Path String token,@Path String regId);
-
-    @Get("/findByFirstName?name=A1")
-    Person findByFirstName();
 
     @Get("/signIn?email={email}&password={password}")
     Token signIn (@Path String email, @Path String password);
@@ -43,4 +40,6 @@ public interface PersonRepository {
     @Get("/findByToken?token={token}")
     CustomPerson findByToken(@Path String token);
 
+    @Get("/findPersonByUniqueId?uniqueId={uniqueId}")
+    CustomPerson findPersonByUniqueId(@Path String uniqueId);
 }

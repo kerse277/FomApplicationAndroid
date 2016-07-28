@@ -11,7 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 /**
  * Created by oguz on 17.07.2016.
  */
-@Rest(rootUrl = "http://192.168.2.130:8081/places",converters = { MappingJackson2HttpMessageConverter.class })
+@Rest(rootUrl = "http://192.168.2.120:8081/places",converters = { MappingJackson2HttpMessageConverter.class })
 public interface PlacesRepository {
 
     @Get("/personWorkSearch?uniqueId={uniqueId}")

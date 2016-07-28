@@ -8,9 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fom.msesoft.fomapplication.R;
-import com.fom.msesoft.fomapplication.activity.MainActivity_;
+import com.fom.msesoft.fomapplication.activity.ProfileActivity_;
+import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.io.IOException;
 
 public class GCMNotificationIntentService extends IntentService {
 
@@ -33,36 +37,43 @@ public class GCMNotificationIntentService extends IntentService {
 		if (!extras.isEmpty()) {
 			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR
 					.equals(messageType)) {
-				sendNotification("Send error: " + extras.toString());
+				sendNotification(null);
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED
 					.equals(messageType)) {
-				sendNotification("Deleted messages on server: "
-						+ extras.toString());
+				sendNotification(null);
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
 					.equals(messageType)) {
+				CustomPerson customPerson = new CustomPerson();
+				ObjectMapper objectMapper = new ObjectMapper();
+				try {
+					customPerson = objectMapper.readValue(""+extras.get(Config.MESSAGE_KEY),CustomPerson.class);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-
-				sendNotification(""+extras.get(Config.MESSAGE_KEY));
+				sendNotification(customPerson);
 
 			}
 		}
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
 	}
 
-	private void sendNotification(String msg) {
+	private void sendNotification(CustomPerson customPerson) {
 
 
 		mNotificationManager = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-
+		Intent intent = new Intent(this,ProfileActivity_.class);
+		intent.putExtra("uniqueId",customPerson.getUniqueId());
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, MainActivity_.class), 0);
+				intent, 0);
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				this).setSmallIcon(R.drawable.ic_account_box_black_24dp)
-				.setContentTitle("MessageApp")
+				this).setSmallIcon(R.drawable.ic_info_outline_black_48dp)
+				.setContentTitle("FomApplication")
 				.setStyle(new NotificationCompat.BigTextStyle().bigText("assa"))
-				.setContentText(msg);
+				.setContentText(customPerson.getFirstName()+" "+customPerson.getLastName()+"\n"
+						+" Kişisi sizi arkadaş eklemek istiyor...");
 
 		mBuilder.setContentIntent(contentIntent);
 		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

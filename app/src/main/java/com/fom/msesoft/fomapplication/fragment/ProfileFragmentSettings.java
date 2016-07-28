@@ -1,10 +1,13 @@
 package com.fom.msesoft.fomapplication.fragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.activity.MainActivity;
@@ -15,6 +18,7 @@ import com.fom.msesoft.fomapplication.repository.PersonRepository;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -24,14 +28,31 @@ import org.androidannotations.rest.spring.annotations.RestService;
 @EFragment(R.layout.profile_settings_fragment)
 public class ProfileFragmentSettings extends Fragment{
 
+
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
+
     @ViewById(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @ViewById(R.id.logout_button)
+    Button logout;
+
+
+    @Click(R.id.logout_button)
+    void logout(){
+        loginPrefsEditor.clear();
+        loginPrefsEditor.commit();
+        getActivity().finish();
+    }
 
     @RestService
     PersonRepository personRepository;
 
     @AfterViews
     void afterViews() {
+        loginPreferences = getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
         String token = ((MainActivity)getActivity()).getToken();
         profileConnection(token);
 
