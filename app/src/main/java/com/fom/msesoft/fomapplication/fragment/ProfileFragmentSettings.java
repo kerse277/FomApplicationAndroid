@@ -2,6 +2,7 @@ package com.fom.msesoft.fomapplication.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,11 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.activity.LoginActivity;
+import com.fom.msesoft.fomapplication.activity.LoginActivity_;
 import com.fom.msesoft.fomapplication.activity.MainActivity;
 import com.fom.msesoft.fomapplication.adapter.ProfileSettingsAdapter;
+import com.fom.msesoft.fomapplication.extras.Preferences_;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
@@ -26,15 +31,17 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.rest.spring.annotations.Body;
 import org.androidannotations.rest.spring.annotations.RestService;
+
+import java.io.IOException;
 
 @EFragment(R.layout.profile_settings_fragment)
 public class ProfileFragmentSettings extends Fragment{
 
-
-    private SharedPreferences loginPreferences;
-    private SharedPreferences.Editor loginPrefsEditor;
+    @Pref
+    Preferences_ preferences;
 
     @ViewById(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -53,10 +60,8 @@ public class ProfileFragmentSettings extends Fragment{
 
 
     @Click(R.id.logout_button)
-    void logout(){
-        loginPrefsEditor.clear();
-        loginPrefsEditor.commit();
-        getActivity().finish();
+    void logout()  {
+     unRegisterGCM();
     }
 
 
@@ -64,10 +69,21 @@ public class ProfileFragmentSettings extends Fragment{
     @RestService
     PersonRepository personRepository;
 
+    @Background
+    void unRegisterGCM(){
+        personRepository.registerGCM(((MainActivity)getActivity()).getToken(),"null");
+        logoutEnd();
+    }
+    @UiThread
+    void logoutEnd(){
+        preferences.clear();
+
+        Intent intent = new Intent(getActivity(), LoginActivity_.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
     @AfterViews
     void afterViews() {
-        loginPreferences = getActivity().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-        loginPrefsEditor = loginPreferences.edit();
         String token = ((MainActivity)getActivity()).getToken();
         profileConnection(token);
 

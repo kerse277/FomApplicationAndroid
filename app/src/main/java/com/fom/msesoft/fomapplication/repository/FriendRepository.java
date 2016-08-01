@@ -4,6 +4,7 @@ import com.fom.msesoft.fomapplication.model.FriendRelationship;
 
 import org.androidannotations.rest.spring.annotations.Body;
 import org.androidannotations.rest.spring.annotations.Get;
+import org.androidannotations.rest.spring.annotations.Path;
 import org.androidannotations.rest.spring.annotations.Post;
 import org.androidannotations.rest.spring.annotations.Rest;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -15,4 +16,5 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 public interface FriendRepository {
     @Post("/saveFriend")
     FriendRelationship saveFriend (@Body FriendRelationship friendRelationship);
+
 }

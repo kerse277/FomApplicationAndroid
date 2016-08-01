@@ -6,9 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.extras.CircleTransform;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.squareup.picasso.Picasso;

@@ -21,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.extras.Preferences;
+import com.fom.msesoft.fomapplication.extras.Preferences_;
 import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.model.Token;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
@@ -33,6 +35,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.rest.spring.annotations.RestService;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
@@ -44,8 +47,6 @@ import java.io.Serializable;
 @Fullscreen
 public class LoginActivity extends AppCompatActivity {
     public Person person;
-    private SharedPreferences loginPreferences;
-    private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
 
     public Token token;
@@ -67,14 +68,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @AfterViews
     void afterViews(){
-        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
-        loginPrefsEditor = loginPreferences.edit();
 
-        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+
+        saveLogin = preferences.isLogin().get();
         if (saveLogin == true) {
 
             Intent intent = new Intent(this, MainActivity_.class);
-            intent.putExtra("token",loginPreferences.getString("token", ""));
+            intent.putExtra("token",preferences.token().get());
             startActivity(intent);
 
         }
@@ -134,6 +134,14 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    @Pref
+    Preferences_ preferences;
+
+
+
+
+
+
     @UiThread
     void chechSign (Token token) {
         if(!token.getToken().equals(null)) {
@@ -142,10 +150,8 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             this.finish();
             registerGCM();
-
-            loginPrefsEditor.putBoolean("saveLogin", true);
-            loginPrefsEditor.putString("token", token.getToken());
-            loginPrefsEditor.commit();
+            preferences.token().put(token.getToken());
+            preferences.isLogin().put(true);
 
             progressBar.setVisibility(View.GONE);
 
@@ -174,6 +180,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
 
 
 

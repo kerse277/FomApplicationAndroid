@@ -60,7 +60,7 @@ public class GCMNotificationIntentService extends IntentService {
 
 	private void sendNotification(CustomPerson customPerson) {
 
-
+		String id = customPerson.getUniqueId();
 		mNotificationManager = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Intent intent = new Intent(this,ProfileActivity_.class);

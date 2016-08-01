@@ -1,4 +1,4 @@
-package com.fom.msesoft.fomapplication.adapter;
+package com.fom.msesoft.fomapplication.extras;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

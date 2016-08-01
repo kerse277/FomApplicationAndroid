@@ -4,19 +4,15 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.fom.msesoft.fomapplication.activity.FriendList;
 import com.fom.msesoft.fomapplication.activity.FriendList_;
 import com.fom.msesoft.fomapplication.activity.MainActivity;
-import com.fom.msesoft.fomapplication.adapter.CircleTransform;
+import com.fom.msesoft.fomapplication.extras.CircleTransform;
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.adapter.ProfilePagerAdapter;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
-import com.fom.msesoft.fomapplication.model.Person;
 import com.fom.msesoft.fomapplication.model.Places;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
 import com.fom.msesoft.fomapplication.repository.PlacesRepository;
@@ -143,8 +139,13 @@ public class ProfileFragment extends Fragment {
                 .transform(new CircleTransform())
                 .into(profilePicture);
         profileName.setText(customPerson.getFirstName()+" "+customPerson.getLastName());
-        work.setText(places.getType()+", "+places.getName());
         hoby.setText(customPerson.getHoby());
+        if(places!=null){
+        work.setText(places.getType()+", "+places.getName());
+
+        } else{
+            work.setText("No Work");
+        }
 
     }
     @Click(R.id.friendNumber)

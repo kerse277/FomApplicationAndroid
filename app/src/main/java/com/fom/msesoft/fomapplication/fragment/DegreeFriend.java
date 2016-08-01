@@ -33,12 +33,11 @@ public class DegreeFriend extends Fragment {
 
     DegreeViewAdapter mAdapter;
 
-    int limitSize=20,degree=2;
+    int degree=2,skip=0;
     private GridLayoutManager lLayout;
+    boolean isDegreeEnd=false;
     List<CustomPerson> itemsData = new ArrayList<>();
     List<CustomPerson> freshItemsData = new ArrayList<>();
-
-
     @ViewById(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -57,15 +56,21 @@ public class DegreeFriend extends Fragment {
 
 
     @Background
-    void listRefresh(List<CustomPerson> itemsData, int degree, int limit){
+    void listRefresh(List<CustomPerson> itemsData, int degree,int skip){
         preRefreshExecute();
-        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getToken(),String.valueOf(degree).toString(),String.valueOf(limit).toString());
+        CustomPerson[] persons = personRepository.findDegreeFriend(((MainActivity)getActivity()).getToken(),degree,skip);
         freshItemsData.clear();
         for(int i = 0 ;i<persons.length;i++){
 
             freshItemsData.add(persons[i]);
         }
-        itemsData.addAll(freshItemsData.subList(limit-21,limit-1));
+
+
+        if(freshItemsData.size()<12){
+            isDegreeEnd=true;
+        }else {
+            isDegreeEnd=false;
+        }
         postRefreshExecute();
 
     }
@@ -76,7 +81,7 @@ public class DegreeFriend extends Fragment {
 
         String token = ((MainActivity)getActivity()).getToken();
 
-        CustomPerson[] persons = personRepository.findDegreeFriend(token,"2","20");
+        CustomPerson[] persons = personRepository.findDegreeFriend(token,2,0);
 
         for(int i = 0 ;i<persons.length;i++){
             itemsData.add(persons[i]);
@@ -96,14 +101,17 @@ public class DegreeFriend extends Fragment {
         itemsData.add(null);
         mAdapter.notifyItemInserted(itemsData.size() - 1);
 
-        itemsData.remove(itemsData.size() - 1);
-        mAdapter.notifyItemRemoved(itemsData.size());
+
 
     }
 
 
     @UiThread
     void postRefreshExecute(){
+        itemsData.remove(itemsData.size() - 1);
+        mAdapter.notifyItemRemoved(itemsData.size());
+
+        itemsData.addAll(freshItemsData);
 
         mAdapter.notifyDataSetChanged();
         mAdapter.setLoaded();
@@ -126,13 +134,15 @@ public class DegreeFriend extends Fragment {
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                limitSize+=20;
-                if(itemsData.size()>=limitSize-20){
-                    listRefresh(itemsData,degree,limitSize);
+
+
+                skip+=12;
+                if(!isDegreeEnd){
+                    listRefresh(itemsData,degree,skip);
                 }else {
-                    limitSize=20;
                     degree+=1;
-                    listRefresh(itemsData,degree,limitSize);
+                    skip=0;
+                    listRefresh(itemsData,degree,skip);
                 }
 
 

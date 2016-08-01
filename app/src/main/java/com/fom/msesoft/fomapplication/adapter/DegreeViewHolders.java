@@ -1,17 +1,15 @@
 package com.fom.msesoft.fomapplication.adapter;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,14 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fom.msesoft.fomapplication.R;
+import com.fom.msesoft.fomapplication.extras.CircleTransform;
+import com.fom.msesoft.fomapplication.extras.Dondurme3dAnimasyon;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.FriendRelationship;
-import com.fom.msesoft.fomapplication.model.Person;
-import com.fom.msesoft.fomapplication.model.Token;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import org.androidannotations.annotations.Fullscreen;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -48,6 +44,9 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
     private String token;
 
     RelativeLayout infoLayout;
+
+    Handler handler;
+
 
     Dialog dialog;
 
@@ -121,34 +120,53 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
                     @Override
                     public void onClick(View view) {
 
-                        friendRelationship.setStartNode(person)
-                                .setEndNode(mePerson)
-                                .setFriendType("Facebook");
+
                         new GetCustomPerson().execute();
                         Toast.makeText(itemView.getContext(),"İstek gönderildi", Toast.LENGTH_LONG).show();
                     }
 
                 });
-
+                final RelativeLayout animLayout = (RelativeLayout)dialog.findViewById(R.id.animLayout);
+                final RelativeLayout animLayout2 = (RelativeLayout)dialog.findViewById(R.id.animLayout2);
                 infoClickView = (ImageView) dialog.findViewById(R.id.infoClickView);
                 infoClickView.setImageResource(R.drawable.ic_info_white_48dp);
+                handler = new Handler();
                 infoClickView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(infoClick == true){
-                            image.setVisibility(View.GONE);
-                            infoLayout.setVisibility(View.VISIBLE);
-                            Picasso.with(itemView.getContext())
-                                    .load(person.getPhoto())
-                                    .transform(new CircleTransform())
-                                    .into(infoClickView);
-                            infoClick = false;
+
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    image.setVisibility(View.GONE);
+                                    infoLayout.setVisibility(View.VISIBLE);
+                                    Picasso.with(itemView.getContext())
+                                            .load(person.getPhoto())
+                                            .transform(new CircleTransform())
+                                            .into(infoClickView);
+                                    infoClick = false;
+                                }
+                            }, 300);
+
+                            applyRotation(animLayout);
+                            applyRotation(animLayout2);
+
                         }
                         else {
-                            image.setVisibility(View.VISIBLE);
-                            infoLayout.setVisibility(View.GONE);
-                            infoClickView.setImageResource(R.drawable.ic_info_white_48dp);
-                            infoClick = true;
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    image.setVisibility(View.VISIBLE);
+                                    infoLayout.setVisibility(View.GONE);
+                                    infoClickView.setImageResource(R.drawable.ic_info_white_48dp);
+                                    infoClick = true;
+                                }
+                            }, 300);
+
+                            applyRotation(animLayout);
+                            applyRotation(animLayout2);
                         }
                     }
                 });
@@ -161,13 +179,20 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
         });
 
     }
+    private void applyRotation(RelativeLayout relativeLayout)
+    {
+        final Dondurme3dAnimasyon rotation = new Dondurme3dAnimasyon(relativeLayout);
+        rotation.applyPropertiesInRotation();
+        relativeLayout.startAnimation(rotation);
+    }
+
 
     private class GetCustomPerson extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {
             HashMap<String, Object> urlVariables = new HashMap<String, Object>();
             urlVariables.put("token", token);
-            mePerson=restTemplate.exchange("http://192.168.2.130:8081/person".concat("/findByToken?token={token}"), HttpMethod.GET, null, CustomPerson.class, urlVariables).getBody();
+            mePerson=restTemplate.exchange("http://192.168.2.120:8081/person".concat("/findByToken?token={token}"), HttpMethod.GET, null, CustomPerson.class, urlVariables).getBody();
             return null;
         }
 
@@ -181,8 +206,10 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
     private class FriendAdd extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {
-            HttpEntity<FriendRelationship> requestEntity = new HttpEntity<FriendRelationship>(friendRelationship);
-            restTemplate.exchange("http://192.168.2.130:8081/friendRelationShip".concat("/saveFriend"), HttpMethod.POST, requestEntity, FriendRelationship.class).getBody();
+            HashMap<String, Object> urlVariables = new HashMap<String, Object>();
+            urlVariables.put("token", token);
+            urlVariables.put("uniqueId",person.getUniqueId());
+            restTemplate.exchange("http://192.168.2.120:8081/friendRelationShip".concat("/gcmAddFriendNTF?friendAdder={token}&friendAdded={uniqueId}"), HttpMethod.GET, null, CustomPerson.class, urlVariables).getBody();
             return null;
         }
     }

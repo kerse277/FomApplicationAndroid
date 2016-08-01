@@ -12,10 +12,10 @@ import com.fom.msesoft.fomapplication.fragment.FeedFragment_;
 import com.fom.msesoft.fomapplication.fragment.ProfileFragment;
 import com.fom.msesoft.fomapplication.fragment.ProfileFragment_;
 
-public class Pager extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
-    public Pager(FragmentManager fm, int NumOfTabs) {
+    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }

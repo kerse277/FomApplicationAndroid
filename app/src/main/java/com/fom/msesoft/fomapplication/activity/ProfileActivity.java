@@ -1,13 +1,11 @@
 package com.fom.msesoft.fomapplication.activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fom.msesoft.fomapplication.R;
-import com.fom.msesoft.fomapplication.adapter.CircleTransform;
+import com.fom.msesoft.fomapplication.extras.CircleTransform;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.repository.PersonRepository;
 import com.squareup.picasso.Picasso;

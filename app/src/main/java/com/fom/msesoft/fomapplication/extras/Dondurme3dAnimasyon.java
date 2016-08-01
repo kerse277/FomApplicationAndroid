@@ -1,4 +1,4 @@
-package com.fom.msesoft.fomapplication.adapter;
+package com.fom.msesoft.fomapplication.extras;
 
 import android.app.Dialog;
 import android.graphics.Camera;
@@ -23,7 +23,7 @@ public class Dondurme3dAnimasyon extends Animation
 
     public Dondurme3dAnimasyon(RelativeLayout relativeLayout) {
         mFromDegrees = 0;
-        mToDegrees = 180;
+        mToDegrees = 360;
         mCenterX = relativeLayout.getWidth() / 2.0f;
         mCenterY = relativeLayout.getHeight() / 2.0f;
     }

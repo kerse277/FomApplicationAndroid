@@ -34,12 +34,15 @@ public interface PersonRepository {
     @Post("/signUp")
     Person insert(@Body Person person);
 
-    @Get("/friendDegree?token={token}&degree={degree}&limit={limit}")
-    CustomPerson[] findDegreeFriend(@Path String token, @Path String degree, @Path String limit);
+    @Get("/friendDegree?token={token}&degree={degree}&skip={skip}")
+    CustomPerson[] findDegreeFriend(@Path String token, @Path int degree , @Path int skip);
 
     @Get("/findByToken?token={token}")
     CustomPerson findByToken(@Path String token);
 
-    @Get("/findPersonByUniqueId?uniqueId={uniqueId}")
+    @Get("/findByUniqueId?uniqueId={uniqueId}")
     CustomPerson findPersonByUniqueId(@Path String uniqueId);
+
+    @Post("/uploadPhoto")
+    void uploadPhoto(@Body byte[] base64photo);
 }

@@ -31,7 +31,7 @@ public class DegreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private boolean isLoading;
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
-
+    RecyclerView recyclerView;
 
     public DegreeViewAdapter(Context context, List<CustomPerson> itemList, RecyclerView recyclerView, String token) {
         this.itemList = itemList;
