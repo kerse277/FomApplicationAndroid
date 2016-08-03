@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 /**
  * Created by jaeger on 27.07.2016.
  */
-public class Dondurme3dAnimasyon extends Animation
+public class Rotate3dAnimation extends Animation
 {
     private final float mFromDegrees;
     private final float mToDegrees;
@@ -21,7 +21,7 @@ public class Dondurme3dAnimasyon extends Animation
     private final float mCenterY;
     private Camera mCamera;
 
-    public Dondurme3dAnimasyon(RelativeLayout relativeLayout) {
+    public Rotate3dAnimation(RelativeLayout relativeLayout) {
         mFromDegrees = 0;
         mToDegrees = 360;
         mCenterX = relativeLayout.getWidth() / 2.0f;

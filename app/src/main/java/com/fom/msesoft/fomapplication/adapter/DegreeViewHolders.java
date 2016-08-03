@@ -18,12 +18,11 @@ import android.widget.Toast;
 
 import com.fom.msesoft.fomapplication.R;
 import com.fom.msesoft.fomapplication.extras.CircleTransform;
-import com.fom.msesoft.fomapplication.extras.Dondurme3dAnimasyon;
+import com.fom.msesoft.fomapplication.extras.Rotate3dAnimation;
 import com.fom.msesoft.fomapplication.model.CustomPerson;
 import com.fom.msesoft.fomapplication.model.FriendRelationship;
 import com.squareup.picasso.Picasso;
 
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -181,7 +180,7 @@ public class DegreeViewHolders extends RecyclerView.ViewHolder {
     }
     private void applyRotation(RelativeLayout relativeLayout)
     {
-        final Dondurme3dAnimasyon rotation = new Dondurme3dAnimasyon(relativeLayout);
+        final Rotate3dAnimation rotation = new Rotate3dAnimation(relativeLayout);
         rotation.applyPropertiesInRotation();
         relativeLayout.startAnimation(rotation);
     }

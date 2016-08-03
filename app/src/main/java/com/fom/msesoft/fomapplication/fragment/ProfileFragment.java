@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
     @ViewById(R.id.textView)
     TextView textView;
 
-    @ViewById(R.id.friendNumber)
+    @ViewById(R.id.friendCount)
     TextView friendNumber;
 
     @ViewById(R.id.profileName)
@@ -67,14 +67,10 @@ public class ProfileFragment extends Fragment {
     @ViewById(R.id.profileTab)
     TabLayout tabLayout;
 
-    @ViewById(R.id.work)
+    @ViewById(R.id.workName)
     TextView work;
 
-    @ViewById(R.id.hoby)
-    TextView hoby;
 
-    @ViewById(R.id.friendsText)
-    TextView friendsText;
 
 
     @AfterViews
@@ -82,8 +78,8 @@ public class ProfileFragment extends Fragment {
         token = ((MainActivity)getActivity()).getToken();
         profileConnection();
 
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_perm_media_white_24dp));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_settings_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.profil_tab_pic_icon2));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.profile_tab_set_icon));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
@@ -97,18 +93,18 @@ public class ProfileFragment extends Fragment {
                 viewPager.setCurrentItem(tab.getPosition());
                 //viewPager.setCurrentItem(tab.getPosition());
                 if(tab.getPosition()==0){
-                    tab.setIcon(R.drawable.ic_perm_media_black_24dp);
+                    tab.setIcon(R.drawable.profil_tab_pic_icon2);
                 }else if(tab.getPosition()==1){
-                    tab.setIcon(R.drawable.ic_settings_black_24dp);
+                    tab.setIcon(R.drawable.profile_tab_set_icon2);
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 if(tab.getPosition()==0){
-                    tab.setIcon(R.drawable.ic_perm_media_white_24dp);
+                    tab.setIcon(R.drawable.profil_tab_pic_icon);
                 }else if(tab.getPosition()==1){
-                    tab.setIcon(R.drawable.ic_settings_white_24dp);
+                    tab.setIcon(R.drawable.profile_tab_set_icon);
                 }
             }
 
@@ -130,16 +126,16 @@ public class ProfileFragment extends Fragment {
         profileNumber(firstDegreeFriend,customPerson,places);
     }
 
-    @UiThread
+   @UiThread
     void profileNumber(List<CustomPerson> firstDegreeFriend, CustomPerson customPerson, Places places) {
         friendNumber.setText(firstDegreeFriend.size() + "");
         Picasso.with(getActivity())
                 .load(customPerson.getPhoto().toString())
-                .resize(200,200)
+
                 .transform(new CircleTransform())
                 .into(profilePicture);
         profileName.setText(customPerson.getFirstName()+" "+customPerson.getLastName());
-        hoby.setText(customPerson.getHoby());
+
         if(places!=null){
         work.setText(places.getType()+", "+places.getName());
 
@@ -148,7 +144,7 @@ public class ProfileFragment extends Fragment {
         }
 
     }
-    @Click(R.id.friendNumber)
+    @Click(R.id.friendCount)
     void friendList () {
 
         Intent i = new Intent(getActivity(),FriendList_.class);
@@ -156,12 +152,7 @@ public class ProfileFragment extends Fragment {
         startActivity(i);
 
     }
-    @Click(R.id.friendsText)
-    void friedList() {
-        Intent i = new Intent(getActivity(),FriendList_.class);
-        i.putExtra("token",token);
-        startActivity(i);
-    }
+
     @Click(R.id.checkButton)
     void CheckButton () {
 
